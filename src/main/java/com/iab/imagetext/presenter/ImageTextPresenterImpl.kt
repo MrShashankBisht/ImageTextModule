@@ -32,11 +32,12 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
     //    local variable
     private var placeHolderId: Int = 0
     private var errorImageId: Int = 0
+    private var imageTextTextViewVisibility = View.VISIBLE
 
     class Builder(
-            //        Required Field
-            val context: Context,
-            val imageTextListener: ImageTextPresenterInterface.ImageTextListener) {
+        //        Required Field
+        val context: Context,
+        val imageTextListener: ImageTextPresenterInterface.ImageTextListener) {
 
         //        textView Variables and Properties
         var textSize = 12f
@@ -45,7 +46,7 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
         var textAllCaps = false
         var textMarginInDp = 0
         var selectedTextColor = Color.BLACK
-        var textViewVisibility: Int = View.VISIBLE
+        var imageTextTextViewVisibility: Int = View.VISIBLE
 
         //        Complete View Variables and Properties
         var viewHeight = ViewGroup.LayoutParams.MATCH_PARENT
@@ -65,8 +66,8 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
         //        imageView Properties
         var imageTextImageViewPaddingInDp = 0;
         var imageTextImageViewMarginInDp = 0;
-        var imageTextImageViewScaleType = ScaleType.FIT_CENTER
-        var imageTextViewVisibility: Int = View.VISIBLE
+        var imageTextImageViewScaleType = ScaleType.CENTER_CROP
+        var imageTextImageViewVisibility: Int = View.VISIBLE
         var loadingImageFromDrawable: String = "loading_1"
         var errorImageFromDrawable: String = "error_1"
         var imageTextImageViewBackgroundColor = Color.TRANSPARENT
@@ -103,8 +104,8 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
             return this
         }
 
-        fun withTextViewVisibility(visibility: Int): Builder {
-            this.textViewVisibility = visibility
+        fun withImageTextTextViewVisibility(visibility: Int): Builder {
+            this.imageTextTextViewVisibility = visibility
             return this
         }
 
@@ -163,7 +164,7 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
         }
 
         fun withImageTextImageViewVisibility(visibility: Int): Builder{
-            this.imageTextViewVisibility = visibility
+            this.imageTextImageViewVisibility = visibility
             return this
         }
 
@@ -232,22 +233,31 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
             val typeFace: Typeface = Typeface.createFromAsset(contextWeakReference.get()?.assets, builder.textFontName)
             imageTextViewInterface.setImageTextViewTextFontFace(typeFace)
         }
-        imageTextViewInterface.setImageTextImageViewVisibility(builder.textViewVisibility)
+        imageTextViewInterface.setImageTextImageViewVisibility(builder.imageTextImageViewVisibility)
+        imageTextViewInterface.setImageTextTextVisibility(builder.imageTextTextViewVisibility)
+        this.imageTextTextViewVisibility = builder.imageTextTextViewVisibility
 
+        var viewWidth = 0
+        var viewHeight = 0
 //        Full View Properties
         if (builder.viewWidth != ViewGroup.LayoutParams.MATCH_PARENT && builder.viewWidth != ViewGroup.LayoutParams.WRAP_CONTENT) {
 //            convert View Width from Dp to Pix and assign to viewWidth
-            imageTextViewInterface.setViewDimensionWidth(ImageUtils.dpToPx(contextWeakReference.get(), builder.viewWidth))
+//            imageTextViewInterface.setViewDimensionWidth(ImageUtils.dpToPx(contextWeakReference.get(), builder.viewWidth))
+            viewWidth = ImageUtils.dpToPx(contextWeakReference.get(), builder.viewWidth)
         } else {
-            imageTextViewInterface.setViewDimensionWidth(builder.viewWidth)
+//            imageTextViewInterface.setViewDimensionWidth(builder.viewWidth)
+            viewWidth = builder.viewWidth
         }
 
         if (builder.viewHeight != ViewGroup.LayoutParams.MATCH_PARENT && builder.viewHeight != ViewGroup.LayoutParams.WRAP_CONTENT) {
 //            convert View Width from Dp to Pix and assign to viewHeight
-            imageTextViewInterface.setViewDimensionHeight(ImageUtils.dpToPx(contextWeakReference.get(), builder.viewHeight))
+//            imageTextViewInterface.setViewDimensionHeight(ImageUtils.dpToPx(contextWeakReference.get(), builder.viewHeight))
+            viewHeight = ImageUtils.dpToPx(contextWeakReference.get(), builder.viewHeight)
         } else {
-            imageTextViewInterface.setViewDimensionHeight(builder.viewHeight)
+            viewHeight = builder.viewHeight
         }
+
+        imageTextViewInterface.setViewHeightWidth(viewWidth, viewHeight)
 
         imageTextViewInterface.setImageTextViewPadding(ImageUtils.dpToPx(contextWeakReference.get(), builder.viewPaddingInDP))
 
@@ -256,10 +266,10 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
 //        setting RadioButton Properties
         imageTextViewInterface.setRadioButtonVisibility(builder.radioButtonVisibilityIs)
         imageTextViewInterface.setImageTextRadioButtonPadding(
-                ImageUtils.dpToPx(contextWeakReference.get(), builder.radioButtonPaddingTopInDp),
-                ImageUtils.dpToPx(contextWeakReference.get(), builder.radioButtonPaddingRightInDp),
-                ImageUtils.dpToPx(contextWeakReference.get(), builder.radioButtonPaddingBottomInDp),
-                ImageUtils.dpToPx(contextWeakReference.get(), builder.radioButtonPaddingLeftInDp),
+            ImageUtils.dpToPx(contextWeakReference.get(), builder.radioButtonPaddingTopInDp),
+            ImageUtils.dpToPx(contextWeakReference.get(), builder.radioButtonPaddingRightInDp),
+            ImageUtils.dpToPx(contextWeakReference.get(), builder.radioButtonPaddingBottomInDp),
+            ImageUtils.dpToPx(contextWeakReference.get(), builder.radioButtonPaddingLeftInDp),
         )
 
 
@@ -278,7 +288,7 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
 
     override fun createView(imageTextDataModel: ImageTextDataModel) {
         this.imageTextDataModel.copyImageTextDataModel(imageTextDataModel)
-        if (imageTextDataModel.text != null && !imageTextDataModel.text.equals("")) {
+        if (imageTextDataModel.text != null && !imageTextDataModel.text.equals("") && imageTextTextViewVisibility != View.GONE) {
             imageTextViewInterface.setImageTextTextVisibility(View.VISIBLE)
             imageTextViewInterface.setImageTextTextViewText(imageTextDataModel.text!!)
         }
@@ -359,14 +369,14 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
         }
 
 //        setRadio Button Visibility
-        if (imageTextDataModel.isRadioButtonVisible) {
+        if (imageTextDataModel.isCheckBoxVisible) {
             imageTextViewInterface.setRadioButtonVisibility(View.VISIBLE)
         } else {
             imageTextViewInterface.setRadioButtonVisibility(View.GONE)
         }
 
 //      check for radio button for check
-        if (imageTextDataModel.isRadioButtonChecked) {
+        if (imageTextDataModel.isChecked) {
             imageTextViewInterface.setRadioButtonChecked()
         } else {
             imageTextViewInterface.setRadioButtonUnChecked()
@@ -375,7 +385,7 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
 
     override fun onImageTextViewClicked() {
         if(imageTextListenerWeakReference.get() != null && imageTextDataModel != null){
-            imageTextListenerWeakReference!!.get()!!.onImageTextViewClicked(imageTextDataModel!!.id, imageTextDataModel!!.isRadioButtonChecked)
+            imageTextListenerWeakReference!!.get()!!.onImageTextViewClicked(imageTextDataModel!!.id, imageTextDataModel!!.isChecked)
         }
     }
 
@@ -384,14 +394,14 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
     }
 
     override fun onImageTextRadioButtonClicked(isChecked: Boolean) {
-        imageTextDataModel?.isRadioButtonChecked = isChecked
-        if (imageTextDataModel!!.isRadioButtonChecked) {
+        imageTextDataModel?.isChecked = isChecked
+        if (imageTextDataModel!!.isChecked) {
             imageTextViewInterface.setRadioButtonChecked()
         } else {
             imageTextViewInterface.setRadioButtonUnChecked()
         }
         if(imageTextViewRadioButtonClickListenerWeakReference?.get() != null){
-            imageTextViewRadioButtonClickListenerWeakReference?.get()?.onImageTextViewRadioButtonClicked(imageTextDataModel!!.id, imageTextDataModel!!.isRadioButtonChecked)
+            imageTextViewRadioButtonClickListenerWeakReference?.get()?.onImageTextViewRadioButtonClicked(imageTextDataModel!!.id, imageTextDataModel!!.isChecked)
         }
     }
 
@@ -414,20 +424,20 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
         } else {
             imageTextViewInterface.setRadioButtonUnChecked()
         }
-        imageTextDataModel?.isRadioButtonChecked = isSelected
+        imageTextDataModel?.isChecked = isSelected
     }
 
     override fun getIsSelected(): Boolean {
-        return imageTextDataModel!!.isRadioButtonChecked
+        return imageTextDataModel!!.isChecked
     }
 
     override fun showRadioButton() {
-        imageTextDataModel?.isRadioButtonVisible = true
+        imageTextDataModel?.isCheckBoxVisible = true
         imageTextViewInterface.setRadioButtonVisibility(View.VISIBLE)
     }
 
     override fun hideRadioButton() {
-        imageTextDataModel?.isRadioButtonVisible = false
+        imageTextDataModel?.isCheckBoxVisible = false
         imageTextViewInterface.setRadioButtonVisibility(View.GONE)
     }
 

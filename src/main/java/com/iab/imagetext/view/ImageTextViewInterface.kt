@@ -8,7 +8,7 @@ import android.widget.ImageView
 interface ImageTextViewInterface {
     fun prepareView();
 
-//    Text View Properties
+    //    Text View Properties
     fun setImageTextViewTextSize(sizeInDp: Float)
     fun setImageTextViewTextColor(textColor: Int)
     fun setImageTextViewTextFontFace(typeface: Typeface)
@@ -20,9 +20,10 @@ interface ImageTextViewInterface {
     fun setImageTextViewPadding(padding: Int)
     fun setViewDimensionWidth(viewWidth: Int)
     fun setViewDimensionHeight(viewHeight: Int)
+    fun setViewHeightWidth(viewWidth: Int, viewHeight: Int)
     fun setImageTextViewBackgroundColor(backgroundColor: Int)
 
-//    ImageView Properties
+    //    ImageView Properties
     fun setImageUsingDrawable(drawableId: Int, placeHolderId: Int, errorImageId: Int)
     fun setImageUsingBitmap(bitmap: Bitmap?, placeHolderId: Int, errorImageId: Int)
     fun setImageUsingUri(imageUri: Uri?, placeHolderId: Int, errorImageId: Int)
@@ -34,11 +35,11 @@ interface ImageTextViewInterface {
 
 
     fun setImageTextImageViewPadding(padding: Int)
-//    fun setImageTextImageViewMargin(margin: Int)
+    //    fun setImageTextImageViewMargin(margin: Int)
     fun setImageTextImageViewScaleType(scaleType: ImageView.ScaleType)
     fun setImageTextImageViewVisibility(visibility: Int)
 
-//    RadioButton Properties
+    //    RadioButton Properties
     fun setImageTextRadioButtonPadding(paddingTop: Int, paddingRight: Int, paddingBottom: Int, paddingLeft: Int)
     fun setRadioButtonVisibility(visibility: Int)
     fun setRadioButtonChecked();

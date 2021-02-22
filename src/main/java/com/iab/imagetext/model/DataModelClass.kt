@@ -16,8 +16,8 @@ class ImageTextDataModel(){
         this.imageInRawFolder = imageTextDataModel.imageInRawFolder
         this.imageServerPath = imageTextDataModel.imageServerPath
         this.showAsThumbnail = imageTextDataModel.showAsThumbnail
-        this.isRadioButtonChecked = imageTextDataModel.isRadioButtonChecked
-        this.isRadioButtonVisible = imageTextDataModel.isRadioButtonVisible
+        this.isChecked = imageTextDataModel.isChecked
+        this.isCheckBoxVisible = imageTextDataModel.isCheckBoxVisible
 
     }
     var id = 0
@@ -33,8 +33,8 @@ class ImageTextDataModel(){
     var showAsThumbnail = false
 
     //    required state
-    var isRadioButtonChecked = false
-    var isRadioButtonVisible = false
+    var isChecked = false
+    var isCheckBoxVisible = false
 
     fun copyImageTextDataModel(imageTextDataModel: ImageTextDataModel): ImageTextDataModel{
         this.id = imageTextDataModel.id
@@ -48,8 +48,8 @@ class ImageTextDataModel(){
         this.imageInRawFolder = imageTextDataModel.imageInRawFolder
         this.imageServerPath = imageTextDataModel.imageServerPath
         this.showAsThumbnail = imageTextDataModel.showAsThumbnail
-        this.isRadioButtonChecked = imageTextDataModel.isRadioButtonChecked
-        this.isRadioButtonVisible = imageTextDataModel.isRadioButtonVisible
+        this.isChecked = imageTextDataModel.isChecked
+        this.isCheckBoxVisible = imageTextDataModel.isCheckBoxVisible
         return this
     }
 

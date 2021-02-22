@@ -21,18 +21,23 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.ssb.imagetext.R
+import com.bumptech.glide.request.target.Target
+import com.iab.imagetext.R
 import com.iab.imagetext.presenter.ImageTextPresenterInterface
 import java.lang.ref.WeakReference
 
 class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPresenterInterface) : ConstraintLayout(context), ImageTextViewInterface {
 
-//    weakReference variable
+    //    weakReference variable
     var imageTextPresenterInterfaceWeekReference: WeakReference<ImageTextPresenterInterface> = WeakReference(imageTextPresenterInterface)
     private var contextWeakReference: WeakReference<Context> = WeakReference(context)
     private var listener = object : RequestListener<Drawable> {
-        override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
-//            change the visibility of the image View to Gone and change the text according to message
+        override fun onLoadFailed(
+            e: GlideException?,
+            model: Any?,
+            target: com.bumptech.glide.request.target.Target<Drawable>?,
+            isFirstResource: Boolean
+        ): Boolean {
             setImageTextImageViewVisibility(View.GONE)
             setImageTextTextViewText("Loading Failed !!")
             if (imageTextPresenterInterfaceWeekReference.get() != null) {
@@ -41,13 +46,19 @@ class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPres
             return false
         }
 
-        override fun onResourceReady(resource: Drawable?, model: Any, target: Target<Drawable?>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+        override fun onResourceReady(
+            resource: Drawable?,
+            model: Any?,
+            target: Target<Drawable>?,
+            dataSource: DataSource?,
+            isFirstResource: Boolean
+        ): Boolean {
             if (imageTextPresenterInterfaceWeekReference.get() != null) {
 //                imageTextPresenterInterfaceWeekReference.get().stopLoadingImageAnimation(true)
+
             }
             return false
         }
-
     }
 
     init {
@@ -57,7 +68,7 @@ class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPres
     override fun prepareView() {
 
 //        set Layout Params to this constraint
-        var layoutParams:ConstraintLayout.LayoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        val layoutParams:ConstraintLayout.LayoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         this.layoutParams = layoutParams
 
 //        inflate Layout in View
@@ -90,13 +101,13 @@ class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPres
             (findViewById<View>(R.id.imageText_imageView) as AppCompatImageView).visibility = VISIBLE
             (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).post {
                 Glide.with(contextWeakReference.get()!!)
-                        .load(drawableId)
-                        .placeholder(placeHolderId)
-                        .error(errorImageId)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
-                        .listener(listener)
-                        .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
+                    .load(drawableId)
+                    .placeholder(placeHolderId)
+                    .error(errorImageId)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
+                    .listener(listener)
+                    .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
             }
         }
     }
@@ -106,13 +117,13 @@ class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPres
             (findViewById<View>(R.id.imageText_imageView) as AppCompatImageView).visibility = VISIBLE
             (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).post {
                 Glide.with(contextWeakReference.get()!!)
-                        .load(bitmap)
-                        .placeholder(placeHolderId)
-                        .error(errorImageId)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
-                        .listener(listener)
-                        .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
+                    .load(bitmap)
+                    .placeholder(placeHolderId)
+                    .error(errorImageId)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
+                    .listener(listener)
+                    .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
             }
         }
     }
@@ -122,13 +133,13 @@ class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPres
             (findViewById<View>(R.id.imageText_imageView) as AppCompatImageView).visibility = VISIBLE
             (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).post {
                 Glide.with(contextWeakReference.get()!!)
-                        .load(imageUri)
-                        .placeholder(placeHolderId)
-                        .error(errorImageId)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
-                        .listener(listener)
-                        .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
+                    .load(imageUri)
+                    .placeholder(placeHolderId)
+                    .error(errorImageId)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
+                    .listener(listener)
+                    .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
             }
         }
     }
@@ -138,13 +149,13 @@ class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPres
             (findViewById<View>(R.id.imageText_imageView) as AppCompatImageView).visibility = VISIBLE
             (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).post {
                 Glide.with(contextWeakReference.get()!!)
-                        .load(serverPath)
-                        .placeholder(placeHolderId)
-                        .error(errorImageId)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
-                        .listener(listener)
-                        .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
+                    .load(serverPath)
+                    .placeholder(placeHolderId)
+                    .error(errorImageId)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
+                    .listener(listener)
+                    .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
             }
         }
     }
@@ -154,13 +165,13 @@ class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPres
             (findViewById<View>(R.id.imageText_imageView) as AppCompatImageView).visibility = VISIBLE
             (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).post {
                 Glide.with(contextWeakReference.get()!!)
-                        .load(localPath)
-                        .placeholder(placeHolderId)
-                        .error(errorImageId)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
-                        .listener(listener)
-                        .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
+                    .load(localPath)
+                    .placeholder(placeHolderId)
+                    .error(errorImageId)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
+                    .listener(listener)
+                    .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
             }
         }
     }
@@ -170,13 +181,13 @@ class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPres
             (findViewById<View>(R.id.imageText_imageView) as AppCompatImageView).visibility = VISIBLE
             (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).post {
                 Glide.with(contextWeakReference.get()!!)
-                        .load(rawFolderId)
-                        .placeholder(placeHolderId)
-                        .error(errorImageId)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
-                        .listener(listener)
-                        .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
+                    .load(rawFolderId)
+                    .placeholder(placeHolderId)
+                    .error(errorImageId)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
+                    .listener(listener)
+                    .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
             }
         }
     }
@@ -186,13 +197,13 @@ class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPres
             (findViewById<View>(R.id.imageText_imageView) as AppCompatImageView).visibility = VISIBLE
             (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).post {
                 Glide.with(contextWeakReference.get()!!)
-                        .load(bytes)
-                        .placeholder(placeHolderId)
-                        .error(errorImageId)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
-                        .listener(listener)
-                        .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
+                    .load(bytes)
+                    .placeholder(placeHolderId)
+                    .error(errorImageId)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override((findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).width, (findViewById<View>(R.id.imageText_imageView_constraintLayout) as ConstraintLayout).height)
+                    .listener(listener)
+                    .into(findViewById<View>(R.id.imageText_imageView) as AppCompatImageView)
             }
         }
     }
@@ -255,6 +266,10 @@ class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPres
         this.layoutParams.height = viewHeight
     }
 
+    override fun setViewHeightWidth(viewWidth: Int, viewHeight: Int) {
+        this.layoutParams = LayoutParams(viewWidth, viewHeight)
+    }
+
     override fun setImageTextViewBackgroundColor(backgroundColor: Int) {
         this.setBackgroundColor(backgroundColor)
     }
@@ -274,5 +289,4 @@ class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPres
     override fun onDestroy() {
 
     }
-
 }
