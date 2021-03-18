@@ -385,7 +385,7 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
 
     override fun onImageTextViewClicked() {
         if(imageTextListenerWeakReference.get() != null && imageTextDataModel != null){
-            imageTextListenerWeakReference!!.get()!!.onImageTextViewClicked(imageTextDataModel!!.id, imageTextDataModel!!.isChecked)
+            imageTextListenerWeakReference!!.get()!!.onImageTextViewClicked(imageTextDataModel)
         }
     }
 

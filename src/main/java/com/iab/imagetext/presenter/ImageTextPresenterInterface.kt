@@ -24,7 +24,7 @@ interface ImageTextPresenterInterface {
 
     interface
     ImageTextListener {
-        fun onImageTextViewClicked(id: Int, isSelected: Boolean)
+        fun onImageTextViewClicked(imageTextDataModel: ImageTextDataModel)
 
     }
 
