@@ -216,6 +216,11 @@ class ImageTextView(context: Context, imageTextPresenterInterface: ImageTextPres
         findViewById<AppCompatTextView>(R.id.imageText_textView).visibility = visibility
     }
 
+    override fun setImageTextInSingleLine(isSingleLine: Boolean) {
+        findViewById<AppCompatTextView>(R.id.imageText_textView).isSingleLine = isSingleLine
+
+    }
+
     override fun setRadioButtonVisibility(visibility: Int) {
         findViewById<AppCompatRadioButton>(R.id.imageText_radio_button).visibility = visibility
     }

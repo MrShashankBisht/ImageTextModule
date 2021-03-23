@@ -47,6 +47,7 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
         var textMarginInDp = 0
         var selectedTextColor = Color.BLACK
         var imageTextTextViewVisibility: Int = View.VISIBLE
+        var imageTextIsSingleLine : Boolean = false
 
         //        Complete View Variables and Properties
         var viewHeight = ViewGroup.LayoutParams.MATCH_PARENT
@@ -106,6 +107,11 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
 
         fun withImageTextTextViewVisibility(visibility: Int): Builder {
             this.imageTextTextViewVisibility = visibility
+            return this
+        }
+
+        fun withImageTextIsSingleLine(isSingleLine: Boolean): Builder {
+            this.imageTextIsSingleLine = isSingleLine
             return this
         }
 
@@ -235,6 +241,7 @@ class ImageTextPresenterImpl private constructor(builder: Builder) : ImageTextPr
         }
         imageTextViewInterface.setImageTextImageViewVisibility(builder.imageTextImageViewVisibility)
         imageTextViewInterface.setImageTextTextVisibility(builder.imageTextTextViewVisibility)
+        imageTextViewInterface.setImageTextInSingleLine(builder.imageTextIsSingleLine)
         this.imageTextTextViewVisibility = builder.imageTextTextViewVisibility
 
         var viewWidth = 0

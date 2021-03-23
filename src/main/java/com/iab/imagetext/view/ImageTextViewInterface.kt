@@ -15,6 +15,7 @@ interface ImageTextViewInterface {
     fun setImageTextViewTextAllCap(isTextAllCap: Boolean)
     fun setImageTextTextViewText(text: String)
     fun setImageTextTextVisibility(visibility: Int)
+    fun setImageTextInSingleLine(isSingleLine: Boolean)
 
     //    View Properties
     fun setImageTextViewPadding(padding: Int)
